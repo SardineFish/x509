@@ -1,8 +1,9 @@
 {
-  "name": "@fidm/x509",
-  "description": "Pure JavaScript X509 certificate tools for Node.js",
+  "name": "@sardinefish/x509",
+  "description": "Pure JavaScript X509 certificate tools for Browser",
   "authors": [
-    "Yan Qing <admin@zensh.com>"
+    "Yan Qing <admin@zensh.com>",
+    "SardineFish <sardine@live.cn>"
   ],
   "version": "1.2.1",
   "main": "build/index.js",
@@ -10,12 +11,9 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git@github.com:fidm/x509.git"
+    "url": "git@github.com:SardineFish/x509.git"
   },
-  "homepage": "https://github.com/fidm/x509",
-  "engines": {
-    "node": ">= 8"
-  },
+  "homepage": "https://github.com/SardineFish/x509",
   "keywords": [
     "x509",
     "certificate",
@@ -25,10 +23,13 @@
     "pki",
     "ed25519",
     "JavaScript",
-    "node"
+    "node",
+    "browser"
   ],
   "dependencies": {
-    "@fidm/asn1": "^1.0.4",
+    "@sardinefish/asn1": "^1.0.4",
+    "buffer": "^6.0.3",
+    "crypto-browserify": "^3.12.0",
     "tweetnacl": "^1.0.1"
   },
   "devDependencies": {
@@ -42,7 +43,7 @@
     "typescript": "^3.3.3333"
   },
   "scripts": {
-    "build": "rm -rf build && tsc",
+    "build": "tsc",
     "docs": "rm -rf docs && typedoc --out docs && touch docs/.nojekyll",
     "test": "tman -r ts-node/register 'test/**/*.ts'",
     "test-cov": "istanbul cover _tman -- 'test/**/*.ts' -r ts-node/register",

@@ -3,9 +3,9 @@
 //
 // **License:** MIT
 
-import { inspect } from 'util'
-import { createHash } from 'crypto'
-import { PEM, ASN1, Class, Tag, Template, Captures, BitString } from '@fidm/asn1'
+import { Buffer } from "buffer";
+import { createHash } from "crypto-browserify";
+import { PEM, ASN1, Class, Tag, Template, Captures, BitString } from '@sardinefish/asn1'
 import { bytesToIP, getOID, getOIDName } from './common'
 import { publicKeyValidator, PublicKey } from './pki'
 
@@ -519,13 +519,6 @@ export class Certificate {
     }
     delete obj.tbsCertificate
     return obj
-  }
-
-  protected [inspect.custom] (_depth: any, options: any): string {
-    if (options.depth <= 2) {
-      options.depth = 10
-    }
-    return `<${this.constructor.name} ${inspect(this.toJSON(), options)}>`
   }
 }
 

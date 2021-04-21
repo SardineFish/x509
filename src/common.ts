@@ -3,7 +3,29 @@
 //
 // **License:** MIT
 
-import { isIP } from 'net'
+import { Buffer } from "buffer";
+
+function isIP (input: string) {
+  if (isIPv4(input)) {
+    return 4;
+  } else if (isIPv6(input)) {
+    return 6;
+ }
+  return 0;
+}
+
+function isIPv4 (input: string) {
+  const parts = input.split(".");
+  if (parts.length !== 4) {
+    return false;
+  }
+  return parts.map((p) => parseInt(p, 10)).every((p) => 0 <= p && p < 256);
+}
+// tslint:disable-next-line:max-line-length
+const IPv6Pattern = /(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))/;
+function isIPv6 (input: string) {
+  return IPv6Pattern.test(input);
+}
 
 /**
  * Converts IP string into buffer, 4 bytes for IPv4, and 16 bytes for IPv6.

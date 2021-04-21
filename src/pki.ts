@@ -3,10 +3,10 @@
 //
 // **License:** MIT
 
-import { inspect } from 'util'
-import { createVerify, createSign, createHash } from 'crypto'
+import { Buffer } from "buffer";
+import { createVerify, createSign, createHash } from "crypto-browserify";
 import { sign as ed25519 } from 'tweetnacl'
-import { PEM, ASN1, Class, Tag, Template, Captures } from '@fidm/asn1'
+import { PEM, ASN1, Class, Tag, Template, Captures } from '@sardinefish/asn1'
 import { getOID, getOIDName } from './common'
 
 /**
@@ -327,10 +327,6 @@ export class PublicKey {
       publicKey: this._keyRaw,
     }
   }
-
-  protected [inspect.custom] (_depth: any, options: any): string {
-    return `<${this.constructor.name} ${inspect(this.toJSON(), options)}>`
-  }
 }
 
 export type Signer = (this: PrivateKey, data: Buffer) => Buffer
@@ -509,10 +505,6 @@ export class PrivateKey {
       publicKey: this._publicKeyRaw,
     }
   }
-
-  protected [inspect.custom] (_depth: any, options: any): string {
-    return `<${this.constructor.name} ${inspect(this.toJSON(), options)}>`
-  }
 }
 
 /**
@@ -584,10 +576,6 @@ export class RSAPublicKey extends PublicKey {
       modulus: trimLeadingZeroByte(this.modulus),
       exponent: this.exponent,
     }
-  }
-
-  protected [inspect.custom] (_depth: any, options: any): string {
-    return `<${this.constructor.name} ${inspect(this.toJSON(), options)}>`
   }
 }
 
@@ -679,10 +667,6 @@ export class RSAPrivateKey extends PrivateKey {
       exponent2: trimLeadingZeroByte(this.exponent2),
       coefficient: trimLeadingZeroByte(this.coefficient),
     }
-  }
-
-  protected [inspect.custom] (_depth: any, options: any): string {
-    return `<${this.constructor.name} ${inspect(this.toJSON(), options)}>`
   }
 }
 

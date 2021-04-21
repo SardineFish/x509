@@ -1,21 +1,42 @@
 # [@fidm/x509](https://github.com/fidm/x509)
-Pure JavaScript X509 certificate tools for Node.js.
+Pure JavaScript X509 certificate tools for Browser.
 
-[![NPM version][npm-image]][npm-url]
-[![Build Status][travis-image]][travis-url]
-[![Downloads][downloads-image]][downloads-url]
-
-Inspired by https://github.com/digitalbazaar/forge
+Forked from [@fidm/x509](https://github.com/SardineFish/x509) and modified to run on browser.
 
 ## Install
 
 ```
-npm i --save @fidm/x509
+npm i --save @sardinefish/x509
 ```
 
 ## Documentation
 
 https://fidm.github.io/x509/
+
+## Integration with Webpack
+
+### For `webpack` >= 5:
+Since package `crypto-browserify` is used to replace node `crypto` but it still depend on node `stream` and `events` libraries. 
+When using `webpack` >= 5 you have to manually configure polyfill for it. 
+Run following code to install polyfills
+```shell
+npm i --save-dev events stream-browserify
+```
+And add following code into `webpack.config.js`
+```js
+module.exports = {
+    // ...
+    resolve: {
+        // ...
+        fallback: {
+            "events": require.resolve("events/"),
+            "stream": require.resolve("stream-browserify"),
+        }
+    },
+    // ...
+}
+```
+
 
 ## Example
 
@@ -23,7 +44,7 @@ https://fidm.github.io/x509/
 ```js
 const fs = require('fs')
 
-const { Certificate, PrivateKey } = require('@fidm/x509')
+const { Certificate, PrivateKey } = require('@sardinefish/x509')
 
 const ed25519Cert = Certificate.fromPEM(fs.readFileSync('./test/cert/ed25519-server-cert.pem'))
 const privateKey = PrivateKey.fromPEM(fs.readFileSync('./test/cert/ed25519-server-key.pem'))
@@ -36,7 +57,7 @@ console.log(ed25519Cert.publicKey.verify(data, signature, 'sha256')) // true
 ### Parse githu.com' certificate
 ```js
 const fs = require('fs')
-const { Certificate } = require('@fidm/x509')
+const { Certificate } = require('@sardinefish/x509')
 const issuer = Certificate.fromPEM(fs.readFileSync('./test/cert/github-issuer.crt'))
 const cert = Certificate.fromPEM(fs.readFileSync('./test/cert/github.crt'))
 console.log(cert.isIssuer(issuer)) // true
